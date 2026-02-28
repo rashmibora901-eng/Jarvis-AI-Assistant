@@ -8,6 +8,7 @@ import webbrowser
 
 OPENROUTER_API_KEY = "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"
 
+
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 
 VOICE_RATE = 180
@@ -180,4 +181,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
