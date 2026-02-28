@@ -3,10 +3,14 @@ import speech_recognition as sr
 import pyttsx3
 import os
 import webbrowser
+from dotenv import load_dotenv 
+load_dotenv()
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
+print("API Key :", OPENROUTER_API_KEY)
+
+
 
 # ===================== CONFIG =====================
-
-OPENROUTER_API_KEY = "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"
 
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 
@@ -180,3 +184,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
