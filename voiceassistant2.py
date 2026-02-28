@@ -6,7 +6,7 @@ import webbrowser
 
 # ===================== CONFIG =====================
 
-OPENROUTER_API_KEY = "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"
+OPENROUTER_API_KEY = "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"
 
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 
@@ -180,3 +180,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
