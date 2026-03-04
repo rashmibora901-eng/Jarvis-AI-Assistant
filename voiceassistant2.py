@@ -3,17 +3,17 @@ import speech_recognition as sr
 import pyttsx3
 import os
 import webbrowser
-from dotenv import load_dotenv 
+from dotenv import load_dotenv
+
+# Load environment variables
 load_dotenv()
-OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
-print("API Key :", OPENROUTER_API_KEY)
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
-
+print("Loaded Key:", GROQ_API_KEY)
 
 # ===================== CONFIG =====================
 
-OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
-
+GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
 VOICE_RATE = 180
 VOICE_VOLUME = 1.0
 
@@ -53,23 +53,20 @@ def listen():
 def ask_ai(prompt):
 
     headers = {
-        "Authorization": f"Bearer {OPENROUTER_API_KEY}",
-        "Content-Type": "application/json",
-        "HTTP-Referer": "http://localhost",
-        "X-Title": "Jarvis"
+        "Authorization": f"Bearer {GROQ_API_KEY}",
+        "Content-Type": "application/json"
     }
 
     data = {
-        "model": "deepseek/deepseek-r1",  # DeepSeek R1 via OpenRouter
+        "model": "llama-3.1-8b-instant", 
         "messages": [
-            {"role": "system", "content": "You are Jarvis, a smart AI assistant."},
             {"role": "user", "content": prompt}
         ]
     }
 
     try:
         response = requests.post(
-            OPENROUTER_URL,
+            GROQ_URL,
             headers=headers,
             json=data
         )
@@ -88,7 +85,6 @@ def open_application(app_name):
 
     app_name = app_name.lower()
 
-    # Websites
     if "youtube" in app_name:
         webbrowser.open("https://www.youtube.com")
         speak("Opening YouTube")
@@ -104,7 +100,6 @@ def open_application(app_name):
         speak("Opening GitHub")
         return
 
-    # Apps
     if "chrome" in app_name:
         os.system("start chrome")
         speak("Opening Chrome")
@@ -131,14 +126,6 @@ def search_google(query):
     webbrowser.open(f"https://www.google.com/search?q={query}")
     speak("Searching on Google")
 
-def shutdown():
-    speak("Shutting down system")
-    os.system("shutdown /s /t 1")
-
-def restart():
-    speak("Restarting system")
-    os.system("shutdown /r /t 1")
-
 # ===================== COMMAND HANDLER =====================
 
 def handle_command(command):
@@ -153,14 +140,6 @@ def handle_command(command):
     if "search" in command:
         query = command.replace("search", "").strip()
         search_google(query)
-        return
-
-    if "shutdown" in command:
-        shutdown()
-        return
-
-    if "restart" in command:
-        restart()
         return
 
     # AI Response
@@ -184,4 +163,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
